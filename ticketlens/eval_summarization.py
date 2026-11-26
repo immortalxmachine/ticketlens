@@ -36,9 +36,14 @@ def bertscore_f1(preds: list[str], refs: list[str]) -> float:
     """Mean BERTScore F1 using config.BERTSCORE_MODEL (default roberta-large)."""
     import torch
     from bert_score import score
+    from bert_score.utils import model2layers
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    _, _, f1 = score(preds, refs, model_type=config.BERTSCORE_MODEL, device=device, batch_size=32, verbose=False)
+    # bert-score's recommended layer per backbone is keyed by the short name (e.g. "roberta-large").
+    layers = model2layers.get(config.BERTSCORE_MODEL.split("/")[-1])
+    _, _, f1 = score(
+        preds, refs, model_type=config.BERTSCORE_MODEL, num_layers=layers, device=device, batch_size=32, verbose=False
+    )
     return round(float(f1.mean()), 4)
 
 
@@ -109,7 +114,7 @@ def main(models: list[str], n: int) -> None:
                 "n_dialogues": len(df),
                 "model_id": MODEL_IDS[name],
                 "bertscore_model": config.BERTSCORE_MODEL,
-                "device": "ollama (local server)" if name == "llama" else device,
+                "device": {"llama": "ollama (local server)", "lead-2": "cpu (no model)"}.get(name, device),
             }
         )
         update_metrics("summarization", name, result)

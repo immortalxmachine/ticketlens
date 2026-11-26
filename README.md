@@ -60,10 +60,12 @@ Latency is per dialogue at batch size 1 on the RTX 4060 Laptop GPU, after one wa
 |---|---|
 | ![Classify](docs/screenshots/01-gradio.png) | ![Summarize](docs/screenshots/01b-gradio-summarize.png) |
 | **Classify:** top-5 intents from fine-tuned DistilBERT. This phrasing ("charged twice") is unlike the training templates, so confidence is low (31%) and the top intent is wrong. A real system would send this to a human. | **Summarize:** BART-large-CNN on a support dialogue, served by the API |
-| ![Swagger](docs/screenshots/02-api-docs.png) | |
-| **API:** Swagger `/docs` with a real `POST /classify` response | |
+| ![Swagger](docs/screenshots/02-api-docs.png) | ![Confusion matrix](docs/screenshots/03-confusion-matrix.png) |
+| **API:** Swagger `/docs` with a real `POST /classify` response | **Confusion matrix:** fine-tuned DistilBERT on the 2,464-message test set |
+| ![Model comparison](docs/screenshots/04-model-comparison.png) | ![CI](docs/screenshots/05-ci.png) |
+| **Model comparison:** chart drawn from `metrics.json` by `ticketlens/plots.py` | **CI:** GitHub Actions running ruff and pytest on every push |
 
-All images are real captures of this code running locally, made with Playwright (`scripts/capture_screenshots.py`).
+The app images are real captures of this code running locally, made with Playwright (`scripts/capture_screenshots.py`); the CI image is a Playwright capture of this repository's public Actions page.
 The GIF is converted from the recorded video by `scripts/make_gif.py` (ffmpeg, two-pass palette).
 
 ## Architecture

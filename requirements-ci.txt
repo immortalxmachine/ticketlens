@@ -1,0 +1,13 @@
+# Lightweight set for CI: no torch / transformers, heavy models are mocked in tests.
+scikit-learn>=1.5
+pandas
+numpy
+matplotlib
+joblib
+fastapi
+httpx
+pydantic>=2
+requests
+python-dotenv
+pytest
+ruff

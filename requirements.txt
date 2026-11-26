@@ -1,0 +1,21 @@
+# Full stack (training + evaluation + serving). Install torch first for your platform:
+#   GPU (CUDA 12.6): pip install torch --index-url https://download.pytorch.org/whl/cu126
+#   CPU only      : pip install torch --index-url https://download.pytorch.org/whl/cpu
+transformers>=4.46
+datasets>=3.0
+accelerate>=1.0
+sentence-transformers>=3.0
+sentencepiece
+scikit-learn>=1.5
+pandas
+numpy
+matplotlib
+rouge-score
+bert-score
+joblib
+fastapi
+uvicorn[standard]
+pydantic>=2
+requests
+python-dotenv
+gradio>=5

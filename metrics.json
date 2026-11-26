@@ -1,0 +1,424 @@
+{
+  "tokenization": {
+    "distilbert_wordpiece": {
+      "n_train_messages": 19707,
+      "wordpiece_mean": 12.89,
+      "wordpiece_p95": 19.0,
+      "wordpiece_p99": 22.0,
+      "wordpiece_max": 31,
+      "whitespace_mean": 8.87,
+      "chosen_max_length": 24,
+      "truncated_share_at_max_length": 0.0052,
+      "vocab_size": 30522
+    }
+  },
+  "last_updated_utc": "2026-11-26T16:38:08+00:00",
+  "dataset": {
+    "bitext_split": {
+      "n_train": 19707,
+      "n_val": 2464,
+      "n_test": 2464,
+      "n_classes": 27,
+      "seed": 42
+    }
+  },
+  "classification": {
+    "tfidf_logreg": {
+      "accuracy": 0.9939,
+      "macro_f1": 0.9938,
+      "n_test": 2464,
+      "per_class": {
+        "cancel_order": {
+          "precision": 0.9608,
+          "recall": 1.0,
+          "f1": 0.98,
+          "support": 49
+        },
+        "change_order": {
+          "precision": 0.9882,
+          "recall": 0.9655,
+          "f1": 0.9767,
+          "support": 87
+        },
+        "change_shipping_address": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 97
+        },
+        "check_cancellation_fee": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 95
+        },
+        "check_invoice": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 92
+        },
+        "check_payment_methods": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 100
+        },
+        "check_refund_policy": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 100
+        },
+        "complaint": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 100
+        },
+        "contact_customer_service": {
+          "precision": 1.0,
+          "recall": 0.98,
+          "f1": 0.9899,
+          "support": 100
+        },
+        "contact_human_agent": {
+          "precision": 0.9802,
+          "recall": 0.99,
+          "f1": 0.9851,
+          "support": 100
+        },
+        "create_account": {
+          "precision": 0.9888,
+          "recall": 0.9888,
+          "f1": 0.9888,
+          "support": 89
+        },
+        "delete_account": {
+          "precision": 0.9787,
+          "recall": 1.0,
+          "f1": 0.9892,
+          "support": 92
+        },
+        "delivery_options": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 66
+        },
+        "delivery_period": {
+          "precision": 0.9901,
+          "recall": 1.0,
+          "f1": 0.995,
+          "support": 100
+        },
+        "edit_account": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 78
+        },
+        "get_invoice": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 91
+        },
+        "get_refund": {
+          "precision": 1.0,
+          "recall": 0.9891,
+          "f1": 0.9945,
+          "support": 92
+        },
+        "newsletter_subscription": {
+          "precision": 1.0,
+          "recall": 0.99,
+          "f1": 0.995,
+          "support": 100
+        },
+        "payment_issue": {
+          "precision": 1.0,
+          "recall": 0.98,
+          "f1": 0.9899,
+          "support": 100
+        },
+        "place_order": {
+          "precision": 0.9709,
+          "recall": 1.0,
+          "f1": 0.9852,
+          "support": 100
+        },
+        "recover_password": {
+          "precision": 0.99,
+          "recall": 1.0,
+          "f1": 0.995,
+          "support": 99
+        },
+        "registration_problems": {
+          "precision": 0.9802,
+          "recall": 0.99,
+          "f1": 0.9851,
+          "support": 100
+        },
+        "review": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 100
+        },
+        "set_up_shipping_address": {
+          "precision": 1.0,
+          "recall": 0.99,
+          "f1": 0.995,
+          "support": 100
+        },
+        "switch_account": {
+          "precision": 1.0,
+          "recall": 0.9884,
+          "f1": 0.9942,
+          "support": 86
+        },
+        "track_order": {
+          "precision": 1.0,
+          "recall": 0.9877,
+          "f1": 0.9938,
+          "support": 81
+        },
+        "track_refund": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 70
+        }
+      },
+      "top_confusions": [
+        {
+          "true": "contact_customer_service",
+          "pred": "contact_human_agent",
+          "count": 2
+        },
+        {
+          "true": "change_order",
+          "pred": "place_order",
+          "count": 2
+        },
+        {
+          "true": "registration_problems",
+          "pred": "create_account",
+          "count": 1
+        },
+        {
+          "true": "set_up_shipping_address",
+          "pred": "registration_problems",
+          "count": 1
+        },
+        {
+          "true": "get_refund",
+          "pred": "delivery_period",
+          "count": 1
+        }
+      ],
+      "train_seconds": 3.51,
+      "ms_per_message": 0.0271,
+      "n_features": 4977
+    },
+    "minilm_logreg": {
+      "accuracy": 0.9955,
+      "macro_f1": 0.9952,
+      "n_test": 2464,
+      "per_class": {
+        "cancel_order": {
+          "precision": 0.9608,
+          "recall": 1.0,
+          "f1": 0.98,
+          "support": 49
+        },
+        "change_order": {
+          "precision": 1.0,
+          "recall": 0.9885,
+          "f1": 0.9942,
+          "support": 87
+        },
+        "change_shipping_address": {
+          "precision": 1.0,
+          "recall": 0.9897,
+          "f1": 0.9948,
+          "support": 97
+        },
+        "check_cancellation_fee": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 95
+        },
+        "check_invoice": {
+          "precision": 1.0,
+          "recall": 0.9891,
+          "f1": 0.9945,
+          "support": 92
+        },
+        "check_payment_methods": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 100
+        },
+        "check_refund_policy": {
+          "precision": 0.9709,
+          "recall": 1.0,
+          "f1": 0.9852,
+          "support": 100
+        },
+        "complaint": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 100
+        },
+        "contact_customer_service": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 100
+        },
+        "contact_human_agent": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 100
+        },
+        "create_account": {
+          "precision": 0.9888,
+          "recall": 0.9888,
+          "f1": 0.9888,
+          "support": 89
+        },
+        "delete_account": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 92
+        },
+        "delivery_options": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 66
+        },
+        "delivery_period": {
+          "precision": 0.9901,
+          "recall": 1.0,
+          "f1": 0.995,
+          "support": 100
+        },
+        "edit_account": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 78
+        },
+        "get_invoice": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 91
+        },
+        "get_refund": {
+          "precision": 0.9889,
+          "recall": 0.9674,
+          "f1": 0.978,
+          "support": 92
+        },
+        "newsletter_subscription": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 100
+        },
+        "payment_issue": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 100
+        },
+        "place_order": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 100
+        },
+        "recover_password": {
+          "precision": 0.99,
+          "recall": 1.0,
+          "f1": 0.995,
+          "support": 99
+        },
+        "registration_problems": {
+          "precision": 0.99,
+          "recall": 0.99,
+          "f1": 0.99,
+          "support": 100
+        },
+        "review": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 100
+        },
+        "set_up_shipping_address": {
+          "precision": 0.9901,
+          "recall": 1.0,
+          "f1": 0.995,
+          "support": 100
+        },
+        "switch_account": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 86
+        },
+        "track_order": {
+          "precision": 1.0,
+          "recall": 0.9753,
+          "f1": 0.9875,
+          "support": 81
+        },
+        "track_refund": {
+          "precision": 1.0,
+          "recall": 0.9857,
+          "f1": 0.9928,
+          "support": 70
+        }
+      },
+      "top_confusions": [
+        {
+          "true": "get_refund",
+          "pred": "check_refund_policy",
+          "count": 3
+        },
+        {
+          "true": "create_account",
+          "pred": "registration_problems",
+          "count": 1
+        },
+        {
+          "true": "registration_problems",
+          "pred": "create_account",
+          "count": 1
+        },
+        {
+          "true": "change_order",
+          "pred": "cancel_order",
+          "count": 1
+        },
+        {
+          "true": "track_refund",
+          "pred": "get_refund",
+          "count": 1
+        }
+      ],
+      "embed_seconds_train_plus_test": 238.74,
+      "embedding_dim": 384
+    }
+  }
+}

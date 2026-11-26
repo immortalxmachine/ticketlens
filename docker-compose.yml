@@ -1,0 +1,37 @@
+name: ticketlens
+
+services:
+  api:
+    build: .
+    image: ticketlens:latest
+    ports:
+      - "8020:8020"
+    environment:
+      - CLASSIFIER=${CLASSIFIER:-distilbert}
+      # Ollama runs on the host machine, not in this container.
+      - OLLAMA_HOST=${OLLAMA_HOST_DOCKER:-http://host.docker.internal:11434}
+      - OLLAMA_MODEL=${OLLAMA_MODEL:-llama3.2:3b}
+    volumes:
+      - ./models:/app/models          # trained classifiers from the training scripts
+      - hf_cache:/app/hf_cache        # downloaded Hugging Face summarizers survive restarts
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8020/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  gradio:
+    image: ticketlens:latest
+    depends_on:
+      - api
+    command: ["python", "-m", "ticketlens.demo"]
+    environment:
+      - API_URL=http://api:8020
+      - GRADIO_HOST=0.0.0.0
+    ports:
+      - "7870:7870"
+
+volumes:
+  hf_cache:

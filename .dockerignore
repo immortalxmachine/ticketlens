@@ -1,0 +1,12 @@
+.venv
+.git
+models
+hf_cache
+data
+reports
+docs
+tests
+__pycache__
+.pytest_cache
+.ruff_cache
+.env

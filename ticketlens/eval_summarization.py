@@ -2,7 +2,7 @@
 
 Metrics
 - ROUGE-1/2/L : n-gram / longest-common-subsequence overlap with the human summary
-- BERTScore F1: similarity of contextual embeddings (roberta-large), so paraphrases count
+- BERTScore F1: similarity of contextual embeddings (config.BERTSCORE_MODEL), so paraphrases count
 - latency     : mean wall-clock seconds per dialogue (batch size 1, after warm-up)
 
 Run:  python -m ticketlens.eval_summarization --models lead-2 bart flan-t5 llama
@@ -33,13 +33,23 @@ def rouge_scores(preds: list[str], refs: list[str]) -> dict:
 
 
 def bertscore_f1(preds: list[str], refs: list[str]) -> float:
-    """Mean BERTScore F1 (roberta-large, the library default for English)."""
+    """Mean BERTScore F1 using config.BERTSCORE_MODEL (default roberta-large)."""
     import torch
     from bert_score import score
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    _, _, f1 = score(preds, refs, lang="en", device=device, batch_size=32, verbose=False)
+    _, _, f1 = score(preds, refs, model_type=config.BERTSCORE_MODEL, device=device, batch_size=32, verbose=False)
     return round(float(f1.mean()), 4)
+
+
+def free_gpu() -> None:
+    import gc
+
+    import torch
+
+    gc.collect()
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
 
 
 def run_model(name: str, df) -> tuple[list[str], list[float]]:
@@ -89,6 +99,7 @@ def main(models: list[str], n: int) -> None:
     for name in models:
         print(f"\n=== {name} ({MODEL_IDS[name]}) ===")
         preds, latencies = run_model(name, df)
+        free_gpu()  # drop the summarizer before loading the BERTScore model (keeps peak memory low)
         result = rouge_scores(preds, refs)
         result["bertscore_f1"] = bertscore_f1(preds, refs)
         result.update(
@@ -97,6 +108,7 @@ def main(models: list[str], n: int) -> None:
                 "avg_summary_words": round(float(np.mean([len(p.split()) for p in preds])), 1),
                 "n_dialogues": len(df),
                 "model_id": MODEL_IDS[name],
+                "bertscore_model": config.BERTSCORE_MODEL,
                 "device": "ollama (local server)" if name == "llama" else device,
             }
         )

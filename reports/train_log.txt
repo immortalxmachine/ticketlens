@@ -1,0 +1,74 @@
+CUDA available: True (NVIDIA GeForce RTX 4060 Laptop GPU)
+Using max_length=24; train=19707 val=2464 test=2464
+[transformers] [1mDistilBertForSequenceClassification LOAD REPORT[0m from: distilbert-base-uncased
+Key                     | Status     | 
+------------------------+------------+-
+vocab_projector.bias    | UNEXPECTED | 
+vocab_layer_norm.weight | UNEXPECTED | 
+vocab_layer_norm.bias   | UNEXPECTED | 
+vocab_transform.weight  | UNEXPECTED | 
+vocab_transform.bias    | UNEXPECTED | 
+classifier.bias         | MISSING    | 
+pre_classifier.bias     | MISSING    | 
+pre_classifier.weight   | MISSING    | 
+classifier.weight       | MISSING    | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+- MISSING:	those params were newly initialized because missing from the checkpoint. Consider training on your downstream task.
+{'loss': '3.285', 'grad_norm': '2.314', 'learning_rate': '1.655e-05', 'epoch': '0.04058'}
+{'loss': '2.967', 'grad_norm': '3.862', 'learning_rate': '3.345e-05', 'epoch': '0.08117'}
+{'loss': '1.979', 'grad_norm': '4.517', 'learning_rate': '4.998e-05', 'epoch': '0.1218'}
+{'loss': '0.9162', 'grad_norm': '3.319', 'learning_rate': '4.89e-05', 'epoch': '0.1623'}
+{'loss': '0.4206', 'grad_norm': '1.455', 'learning_rate': '4.782e-05', 'epoch': '0.2029'}
+{'loss': '0.1748', 'grad_norm': '0.6568', 'learning_rate': '4.674e-05', 'epoch': '0.2435'}
+{'loss': '0.0909', 'grad_norm': '0.536', 'learning_rate': '4.566e-05', 'epoch': '0.2841'}
+{'loss': '0.0469', 'grad_norm': '0.1842', 'learning_rate': '4.458e-05', 'epoch': '0.3247'}
+{'loss': '0.04682', 'grad_norm': '0.1847', 'learning_rate': '4.35e-05', 'epoch': '0.3653'}
+{'loss': '0.05139', 'grad_norm': '0.1165', 'learning_rate': '4.242e-05', 'epoch': '0.4058'}
+{'loss': '0.04222', 'grad_norm': '0.1132', 'learning_rate': '4.134e-05', 'epoch': '0.4464'}
+{'loss': '0.02505', 'grad_norm': '0.0641', 'learning_rate': '4.026e-05', 'epoch': '0.487'}
+{'loss': '0.02917', 'grad_norm': '0.167', 'learning_rate': '3.918e-05', 'epoch': '0.5276'}
+{'loss': '0.02582', 'grad_norm': '0.05204', 'learning_rate': '3.81e-05', 'epoch': '0.5682'}
+{'loss': '0.02965', 'grad_norm': '0.1261', 'learning_rate': '3.703e-05', 'epoch': '0.6088'}
+{'loss': '0.01052', 'grad_norm': '0.03329', 'learning_rate': '3.595e-05', 'epoch': '0.6494'}
+{'loss': '0.03814', 'grad_norm': '0.06891', 'learning_rate': '3.487e-05', 'epoch': '0.6899'}
+{'loss': '0.01783', 'grad_norm': '32.18', 'learning_rate': '3.379e-05', 'epoch': '0.7305'}
+{'loss': '0.01512', 'grad_norm': '0.08596', 'learning_rate': '3.271e-05', 'epoch': '0.7711'}
+{'loss': '0.01826', 'grad_norm': '0.03184', 'learning_rate': '3.163e-05', 'epoch': '0.8117'}
+{'loss': '0.01289', 'grad_norm': '0.03667', 'learning_rate': '3.055e-05', 'epoch': '0.8523'}
+{'loss': '0.01534', 'grad_norm': '0.01968', 'learning_rate': '2.947e-05', 'epoch': '0.8929'}
+{'loss': '0.004566', 'grad_norm': '0.01816', 'learning_rate': '2.839e-05', 'epoch': '0.9334'}
+{'loss': '0.02806', 'grad_norm': '0.03242', 'learning_rate': '2.731e-05', 'epoch': '0.974'}
+{'eval_loss': '0.0257', 'eval_accuracy': '0.9943', 'eval_macro_f1': '0.9939', 'eval_runtime': '0.5309', 'eval_samples_per_second': '4641', 'eval_steps_per_second': '37.67', 'epoch': '1'}
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  2.39it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  2.38it/s]
+{'loss': '0.01748', 'grad_norm': '0.077', 'learning_rate': '2.623e-05', 'epoch': '1.015'}
+{'loss': '0.002077', 'grad_norm': '0.01444', 'learning_rate': '2.515e-05', 'epoch': '1.055'}
+{'loss': '0.004747', 'grad_norm': '0.01736', 'learning_rate': '2.407e-05', 'epoch': '1.096'}
+{'loss': '0.002825', 'grad_norm': '0.01472', 'learning_rate': '2.299e-05', 'epoch': '1.136'}
+{'loss': '0.01154', 'grad_norm': '0.1588', 'learning_rate': '2.191e-05', 'epoch': '1.177'}
+{'loss': '0.004491', 'grad_norm': '0.02337', 'learning_rate': '2.083e-05', 'epoch': '1.218'}
+{'loss': '0.002674', 'grad_norm': '0.009724', 'learning_rate': '1.975e-05', 'epoch': '1.258'}
+{'loss': '0.02388', 'grad_norm': '0.01389', 'learning_rate': '1.867e-05', 'epoch': '1.299'}
+{'loss': '0.002553', 'grad_norm': '0.01991', 'learning_rate': '1.759e-05', 'epoch': '1.339'}
+{'loss': '0.001249', 'grad_norm': '0.01159', 'learning_rate': '1.652e-05', 'epoch': '1.38'}
+{'loss': '0.001323', 'grad_norm': '0.01956', 'learning_rate': '1.544e-05', 'epoch': '1.42'}
+{'loss': '0.003561', 'grad_norm': '0.03801', 'learning_rate': '1.436e-05', 'epoch': '1.461'}
+{'loss': '0.007647', 'grad_norm': '0.01292', 'learning_rate': '1.328e-05', 'epoch': '1.502'}
+{'loss': '0.002543', 'grad_norm': '0.284', 'learning_rate': '1.22e-05', 'epoch': '1.542'}
+{'loss': '0.00561', 'grad_norm': '0.02324', 'learning_rate': '1.112e-05', 'epoch': '1.583'}
+{'loss': '0.003946', 'grad_norm': '0.01164', 'learning_rate': '1.004e-05', 'epoch': '1.623'}
+{'loss': '0.001054', 'grad_norm': '0.009643', 'learning_rate': '8.959e-06', 'epoch': '1.664'}
+{'loss': '0.0108', 'grad_norm': '0.008178', 'learning_rate': '7.88e-06', 'epoch': '1.705'}
+{'loss': '0.001187', 'grad_norm': '0.008562', 'learning_rate': '6.801e-06', 'epoch': '1.745'}
+{'loss': '0.0023', 'grad_norm': '0.01067', 'learning_rate': '5.721e-06', 'epoch': '1.786'}
+{'loss': '0.005612', 'grad_norm': '0.008817', 'learning_rate': '4.642e-06', 'epoch': '1.826'}
+{'loss': '0.001094', 'grad_norm': '0.009233', 'learning_rate': '3.562e-06', 'epoch': '1.867'}
+{'loss': '0.003885', 'grad_norm': '0.009437', 'learning_rate': '2.483e-06', 'epoch': '1.907'}
+{'loss': '0.01559', 'grad_norm': '0.01832', 'learning_rate': '1.403e-06', 'epoch': '1.948'}
+{'loss': '0.008646', 'grad_norm': '0.008676', 'learning_rate': '3.238e-07', 'epoch': '1.989'}
+{'eval_loss': '0.01414', 'eval_accuracy': '0.9963', 'eval_macro_f1': '0.9962', 'eval_runtime': '0.5383', 'eval_samples_per_second': '4577', 'eval_steps_per_second': '37.15', 'epoch': '2'}
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  2.64it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  2.64it/s]
+{'train_runtime': '171.1', 'train_samples_per_second': '230.4', 'train_steps_per_second': '14.4', 'train_loss': '0.2118', 'epoch': '2'}
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  2.45it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  2.45it/s]
+Fine-tuned DistilBERT        acc=0.9984  macro-F1=0.9982

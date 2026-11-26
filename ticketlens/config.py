@@ -34,6 +34,8 @@ TEST_FRAC = 0.10
 
 # Summarization: how many test dialogues we benchmark on (fixed by SEED).
 SUM_TEST_SIZE = int(os.getenv("SUM_TEST_SIZE", "200"))
+# BERTScore backbone; roberta-large is the library default for English.
+BERTSCORE_MODEL = os.getenv("BERTSCORE_MODEL", "roberta-large")
 
 # Ollama (local LLM server) settings.
 OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://localhost:11434")

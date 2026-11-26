@@ -12,7 +12,7 @@
       "vocab_size": 30522
     }
   },
-  "last_updated_utc": "2026-11-26T16:38:08+00:00",
+  "last_updated_utc": "2026-11-26T19:32:31+00:00",
   "dataset": {
     "bitext_split": {
       "n_train": 19707,
@@ -419,6 +419,204 @@
       ],
       "embed_seconds_train_plus_test": 238.74,
       "embedding_dim": 384
+    },
+    "distilbert_finetuned": {
+      "accuracy": 0.9984,
+      "macro_f1": 0.9982,
+      "n_test": 2464,
+      "per_class": {
+        "cancel_order": {
+          "precision": 0.98,
+          "recall": 1.0,
+          "f1": 0.9899,
+          "support": 49
+        },
+        "change_order": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 87
+        },
+        "change_shipping_address": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 97
+        },
+        "check_cancellation_fee": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 95
+        },
+        "check_invoice": {
+          "precision": 0.9892,
+          "recall": 1.0,
+          "f1": 0.9946,
+          "support": 92
+        },
+        "check_payment_methods": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 100
+        },
+        "check_refund_policy": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 100
+        },
+        "complaint": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 100
+        },
+        "contact_customer_service": {
+          "precision": 0.9901,
+          "recall": 1.0,
+          "f1": 0.995,
+          "support": 100
+        },
+        "contact_human_agent": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 100
+        },
+        "create_account": {
+          "precision": 1.0,
+          "recall": 0.9775,
+          "f1": 0.9886,
+          "support": 89
+        },
+        "delete_account": {
+          "precision": 0.9892,
+          "recall": 1.0,
+          "f1": 0.9946,
+          "support": 92
+        },
+        "delivery_options": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 66
+        },
+        "delivery_period": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 100
+        },
+        "edit_account": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 78
+        },
+        "get_invoice": {
+          "precision": 1.0,
+          "recall": 0.989,
+          "f1": 0.9945,
+          "support": 91
+        },
+        "get_refund": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 92
+        },
+        "newsletter_subscription": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 100
+        },
+        "payment_issue": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 100
+        },
+        "place_order": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 100
+        },
+        "recover_password": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 99
+        },
+        "registration_problems": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 100
+        },
+        "review": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 100
+        },
+        "set_up_shipping_address": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 100
+        },
+        "switch_account": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 86
+        },
+        "track_order": {
+          "precision": 1.0,
+          "recall": 0.9877,
+          "f1": 0.9938,
+          "support": 81
+        },
+        "track_refund": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 70
+        }
+      },
+      "top_confusions": [
+        {
+          "true": "create_account",
+          "pred": "contact_customer_service",
+          "count": 1
+        },
+        {
+          "true": "get_invoice",
+          "pred": "check_invoice",
+          "count": 1
+        },
+        {
+          "true": "create_account",
+          "pred": "delete_account",
+          "count": 1
+        },
+        {
+          "true": "track_order",
+          "pred": "cancel_order",
+          "count": 1
+        }
+      ],
+      "epochs": 2,
+      "batch_size": 16,
+      "learning_rate": 5e-05,
+      "max_length": 24,
+      "train_seconds": 171.7,
+      "ms_per_message_batched": 0.2903,
+      "device": "NVIDIA GeForce RTX 4060 Laptop GPU"
     }
   }
 }

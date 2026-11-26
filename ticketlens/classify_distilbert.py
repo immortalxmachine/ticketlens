@@ -29,7 +29,7 @@ def compute_metrics(eval_pred) -> dict:
     return {"accuracy": accuracy_score(labels, preds), "macro_f1": f1_score(labels, preds, average="macro")}
 
 
-def main(epochs: int = 2, batch_size: int = 32, lr: float = 5e-5) -> None:
+def main(epochs: int = 2, batch_size: int = 32, lr: float = 5e-5, force_cpu: bool = False) -> None:
     import torch
     from datasets import Dataset
     from transformers import (
@@ -43,8 +43,12 @@ def main(epochs: int = 2, batch_size: int = 32, lr: float = 5e-5) -> None:
 
     config.ensure_dirs()
     set_seed(config.SEED)
-    use_gpu = torch.cuda.is_available()
+    use_gpu = torch.cuda.is_available() and not force_cpu
     print(f"CUDA available: {use_gpu}" + (f" ({torch.cuda.get_device_name(0)})" if use_gpu else ""))
+    if use_gpu:
+        # Create the CUDA context before the data/tokenizer work. On Windows (WDDM) a late first
+        # allocation can fail with a spurious OOM when system commit memory is tight.
+        torch.zeros(1, device="cuda")
 
     train, val, test = stratified_split(load_bitext())
     labels = sorted(train["label"].unique())
@@ -76,7 +80,7 @@ def main(epochs: int = 2, batch_size: int = 32, lr: float = 5e-5) -> None:
         per_device_eval_batch_size=128,
         learning_rate=lr,
         weight_decay=0.01,
-        warmup_ratio=0.06,  # small linear warm-up avoids destroying pre-trained weights early
+        warmup_steps=0.06,  # float < 1 = ratio of total steps; warm-up protects pre-trained weights
         eval_strategy="epoch",
         save_strategy="epoch",
         save_total_limit=1,
@@ -86,6 +90,7 @@ def main(epochs: int = 2, batch_size: int = 32, lr: float = 5e-5) -> None:
         fp16=use_gpu,  # half precision only on GPU
         seed=config.SEED,
         report_to="none",
+        use_cpu=not use_gpu,
         disable_tqdm=True,  # plain log lines read better in train_log.txt
     )
     trainer = Trainer(
@@ -134,5 +139,6 @@ if __name__ == "__main__":
     parser.add_argument("--epochs", type=int, default=2)
     parser.add_argument("--batch-size", type=int, default=32)
     parser.add_argument("--lr", type=float, default=5e-5)
+    parser.add_argument("--cpu", action="store_true", help="train on CPU even if a GPU is present")
     a = parser.parse_args()
-    main(a.epochs, a.batch_size, a.lr)
+    main(a.epochs, a.batch_size, a.lr, a.cpu)

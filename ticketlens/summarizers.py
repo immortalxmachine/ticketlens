@@ -111,7 +111,8 @@ class HFChatSummarizer:
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         dtype = torch.float16 if self.device == "cuda" else torch.float32
         self.tokenizer = AutoTokenizer.from_pretrained(model_id)
-        self.model = AutoModelForCausalLM.from_pretrained(model_id, dtype=dtype).to(self.device).eval()
+        # device_map loads weights straight onto the target device (no full extra copy in system RAM).
+        self.model = AutoModelForCausalLM.from_pretrained(model_id, dtype=dtype, device_map=self.device).eval()
 
     def summarize(self, text: str) -> str:
         messages = [{"role": "user", "content": LLAMA_PROMPT.format(dialogue=text)}]

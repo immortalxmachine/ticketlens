@@ -60,8 +60,9 @@ def main() -> None:
             "BERTScore F1": [v["bertscore_f1"] for v in summ.values()],
         },
         f"Dialogue summarization (DialogSum test, n={n_dlg})",
-        (0, 1.0),
+        (0, 1.15),
     )
+    ax2.legend(fontsize=8, loc="upper left", ncols=2)  # keep the legend clear of the bars
     fig.tight_layout()
     out = config.REPORTS_DIR / "model_comparison.png"
     fig.savefig(out, dpi=110)

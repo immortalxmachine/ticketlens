@@ -80,8 +80,23 @@ search or clustering; fine-tuning usually wins on accuracy when labelled data ex
 
 ### 11. Why include the lead-2 baseline?
 It copies the first two dialogue turns, with no model at all. It shows how much ROUGE a summary gets "for free" from
-word overlap; an abstractive model has to beat it to justify its cost. BERTScore values sit in a narrow band
-(around 0.85 to 0.92), so differences there are small and should be read together with ROUGE and the examples.
+word overlap; an abstractive model has to beat it to justify its cost. On 200 DialogSum test dialogues:
+
+| Model | ROUGE-1 | ROUGE-2 | ROUGE-L | BERTScore F1 | Latency (s) |
+|---|---|---|---|---|---|
+| lead-2 | 0.2656 | 0.0573 | 0.2044 | 0.8773 | 0.000 |
+| BART-large-CNN | 0.2900 | 0.0867 | 0.2217 | 0.8758 | 1.718 |
+| Flan-T5-base | 0.3056 | 0.1051 | 0.2589 | 0.8828 | 1.454 |
+
+BERTScore sits in a narrow band (0.876 to 0.883), so read it together with ROUGE and the examples.
+
+### 11b. Why does BART-large-CNN barely beat copying two lines?
+It was fine-tuned on CNN/DailyMail news, where the first sentences of an article are a good summary. It learned
+that "lead bias" and, on dialogues, often copies the opening turns almost verbatim (see the first example in
+`reports/summarization_examples.md`, where its output equals lead-2). Its BERTScore is even slightly below lead-2.
+Flan-T5 was instruction-tuned on many tasks (including dialogue summarization prompts), so it rewrites instead of
+copying: shorter outputs (13.6 vs 30.7 words) and the best ROUGE-2/ROUGE-L. Domain match matters more than size
+(BART-large has ~400M parameters vs ~250M for Flan-T5-base).
 
 ### 12. What are the limitations?
 - **Bitext is hybrid-synthetic** (generated from seed templates). Messages are clean and uniform, so all three
@@ -89,8 +104,9 @@ word overlap; an abstractive model has to beat it to justify its cost. BERTScore
 - Summarization is zero-shot on 200 dialogues; no model was fine-tuned on DialogSum.
 - DialogSum is general everyday dialogue, not support tickets specifically.
 - ROUGE rewards wording overlap, not factual correctness. A human review or an LLM judge would be the next step.
-- The Ollama Llama 3.2 3B row was **not run** (Ollama was not installed on the build machine); the 1B instruct model
-  was run directly with transformers instead (`llama-hf`).
+- The Llama rows were **not run**. Ollama was not installed on the build machine, and Llama-3.2-1B-Instruct through
+  transformers (`llama-hf`) failed to load because the laptop ran out of Windows paging-file (commit) memory. The
+  code paths exist and are selectable in the API; they simply have no measured numbers.
 - Docker files are written but **not verified** on this machine.
 
 ### 13. How does the API work?

@@ -12,7 +12,7 @@
       "vocab_size": 30522
     }
   },
-  "last_updated_utc": "2026-11-26T19:32:31+00:00",
+  "last_updated_utc": "2026-11-26T19:57:13+00:00",
   "dataset": {
     "bitext_split": {
       "n_train": 19707,
@@ -616,6 +616,44 @@
       "max_length": 24,
       "train_seconds": 171.7,
       "ms_per_message_batched": 0.2903,
+      "device": "NVIDIA GeForce RTX 4060 Laptop GPU"
+    }
+  },
+  "summarization": {
+    "lead-2": {
+      "rouge1": 0.2656,
+      "rouge2": 0.0573,
+      "rougeL": 0.2044,
+      "bertscore_f1": 0.8773,
+      "avg_latency_s": 0.0,
+      "avg_summary_words": 25.7,
+      "n_dialogues": 200,
+      "model_id": "first two turns (extractive)",
+      "bertscore_model": "FacebookAI/roberta-large",
+      "device": "cpu (no model)"
+    },
+    "flan-t5": {
+      "rouge1": 0.3056,
+      "rouge2": 0.1051,
+      "rougeL": 0.2589,
+      "bertscore_f1": 0.8828,
+      "avg_latency_s": 1.4545,
+      "avg_summary_words": 13.6,
+      "n_dialogues": 200,
+      "model_id": "google/flan-t5-base",
+      "bertscore_model": "FacebookAI/roberta-large",
+      "device": "NVIDIA GeForce RTX 4060 Laptop GPU"
+    },
+    "bart": {
+      "rouge1": 0.29,
+      "rouge2": 0.0867,
+      "rougeL": 0.2217,
+      "bertscore_f1": 0.8758,
+      "avg_latency_s": 1.7176,
+      "avg_summary_words": 30.7,
+      "n_dialogues": 200,
+      "model_id": "facebook/bart-large-cnn",
+      "bertscore_model": "FacebookAI/roberta-large",
       "device": "NVIDIA GeForce RTX 4060 Laptop GPU"
     }
   }

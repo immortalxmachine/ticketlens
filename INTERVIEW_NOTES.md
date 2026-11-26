@@ -1,6 +1,6 @@
 # TicketLens: interview notes
 
-Questions an interviewer is likely to ask, each tied to the file that answers it.
+20 questions an interviewer is likely to ask, each tied to the file that answers it.
 Every number quoted here comes from `metrics.json`.
 
 ---
@@ -59,18 +59,17 @@ Test set, 2,464 messages:
 
 The fine-tuned model is best, but the cheap baseline is within 0.5 points. On this dataset TF-IDF is a perfectly
 reasonable production choice (1 MB model, CPU, milliseconds). The honest conclusion is that **the data is easy**,
-not that DistilBERT is magic. See question 12.
+not that DistilBERT is magic. See question 16.
 
-### 8. Why compare against a TF-IDF baseline at all?
-Without a baseline you cannot tell whether a transformer is worth its cost. TF-IDF with unigrams and bigrams +
+**Why a TF-IDF baseline at all?** Without a baseline you cannot tell whether a transformer is worth its cost. TF-IDF with unigrams and bigrams +
 logistic regression trains in seconds on a CPU and sets the bar every heavier model must clear.
 
-### 9. What are frozen embeddings vs fine-tuning?
+### 8. What are frozen embeddings vs fine-tuning?
 MiniLM + LogReg encodes every message once with a frozen sentence-transformer and trains only a linear classifier on the
 384-d vectors. Fine-tuning updates every encoder weight for the task. Frozen embeddings are cheaper and reusable for
 search or clustering; fine-tuning usually wins on accuracy when labelled data exists.
 
-### 10. How do you evaluate summaries?
+### 9. How do you evaluate summaries?
 `ticketlens/eval_summarization.py`:
 - **ROUGE-1/2/L** (with stemming): n-gram and longest-common-subsequence overlap with the human reference.
 - **BERTScore F1** (roberta-large, layer 17): compares contextual token embeddings, so paraphrases get credit.
@@ -78,7 +77,7 @@ search or clustering; fine-tuning usually wins on accuracy when labelled data ex
 - Each model's outputs are saved to `reports/summaries/<model>.jsonl`, and five side-by-side examples go to
   `reports/summarization_examples.md` so the numbers can be checked against real text.
 
-### 11. Why include the lead-2 baseline?
+### 10. Why include the lead-2 baseline?
 It copies the first two dialogue turns, with no model at all. It shows how much ROUGE a summary gets "for free" from
 word overlap; an abstractive model has to beat it to justify its cost. On 200 DialogSum test dialogues:
 
@@ -90,7 +89,7 @@ word overlap; an abstractive model has to beat it to justify its cost. On 200 Di
 
 BERTScore sits in a narrow band (0.876 to 0.883), so read it together with ROUGE and the examples.
 
-### 11b. Why does BART-large-CNN barely beat copying two lines?
+### 11. Why does BART-large-CNN barely beat copying two lines?
 It was fine-tuned on CNN/DailyMail news, where the first sentences of an article are a good summary. It learned
 that "lead bias" and, on dialogues, often copies the opening turns almost verbatim (see the first example in
 `reports/summarization_examples.md`, where its output equals lead-2). Its BERTScore is even slightly below lead-2.
@@ -98,7 +97,39 @@ Flan-T5 was instruction-tuned on many tasks (including dialogue summarization pr
 copying: shorter outputs (13.6 vs 30.7 words) and the best ROUGE-2/ROUGE-L. Domain match matters more than size
 (BART-large has ~400M parameters vs ~250M for Flan-T5-base).
 
-### 12. What are the limitations?
+### 12. Is there class imbalance, and how did you handle it?
+Mild. After deduplication the 27 intents have between 49 (`cancel_order`) and 100 test messages each (see `per_class`
+in `metrics.json`). I handled it with a
+**stratified split** (`data.py::stratified_split`) so every split has the same intent proportions, and by reporting
+**macro-F1** next to accuracy (`eval_utils.py::classification_results`). No class weights or resampling were needed:
+macro-F1 (0.9982) is almost equal to accuracy (0.9984), so the small intents are not being ignored. With strong
+imbalance I would add `class_weight="balanced"` to the logistic regressions or a weighted loss in the Trainer.
+
+### 13. Which intents get confused, and does that make sense?
+`eval_utils.py::top_confusions` lists the most frequent (true -> predicted) mistakes per model in `metrics.json`.
+TF-IDF confuses `contact_customer_service` with `contact_human_agent` and `change_order` with `place_order` (2 each);
+MiniLM confuses `get_refund` with `check_refund_policy` (3). These are near-synonyms with overlapping words. DistilBERT
+makes only 4 errors on 2,464 messages, all different pairs (e.g. `get_invoice` -> `check_invoice`). The confusion
+matrix image is `reports/confusion_matrix_distilbert_finetuned.png`.
+
+### 14. Extractive vs abstractive summarization?
+- **Extractive** copies sentences from the input. `summarizers.py::Lead2Summarizer` is the simplest version: the first
+  two turns. It is fast and never invents facts, but it keeps the speaker tags and dialogue phrasing, and it misses
+  anything decided later in the conversation.
+- **Abstractive** models (`Seq2SeqSummarizer` for BART and Flan-T5, `HFChatSummarizer` / `OllamaSummarizer` for Llama)
+  generate new text, so they can write "#Person1# wants to know..." in the third person like the human references.
+  The risk is hallucination: they can state something the dialogue never said.
+- BART-large-CNN behaves almost extractively on this data (question 11), which is why its scores sit close to lead-2.
+
+### 15. Why is lead-2's BERTScore so close to the real models?
+BERTScore (`eval_summarization.py::bertscore_f1`) compares contextual token embeddings, and every candidate here is
+about the same everyday conversation as the reference: same people, same topic words, same register. RoBERTa
+embeddings of on-topic English text are already similar, so scores cluster high (lead-2 0.8773, BART 0.8758, Flan-T5
+0.8828) and the useful signal is in small differences. bert-score supports baseline rescaling (`rescale_with_baseline`)
+to spread the scale; I kept raw scores so they match the library defaults, and I read them together with ROUGE-2,
+where the gap is clearer (0.0573 vs 0.1051).
+
+### 16. What are the limitations?
 - **Bitext is hybrid-synthetic** (generated from seed templates). Messages are clean and uniform, so all three
   classifiers score above 99%. Real tickets have typos, multiple intents and long threads; expect lower numbers.
 - Summarization is zero-shot on 200 dialogues; no model was fine-tuned on DialogSum.
@@ -109,7 +140,7 @@ copying: shorter outputs (13.6 vs 30.7 words) and the best ROUGE-2/ROUGE-L. Doma
   code paths exist and are selectable in the API; they simply have no measured numbers.
 - Docker files are written but **not verified** on this machine.
 
-### 13. How does the API work?
+### 17. How does the API work?
 `ticketlens/api.py` (FastAPI, port 8020):
 - `POST /classify` -> intent, category, confidence and top-k scores, plus the model name and latency.
 - `POST /summarize` -> summary from the chosen model (`lead-2`, `bart`, `flan-t5`, `llama`, `llama-hf`).
@@ -117,17 +148,17 @@ copying: shorter outputs (13.6 vs 30.7 words) and the best ROUGE-2/ROUGE-L. Doma
 Pydantic validates requests (empty text and unknown model names return 422). Models load lazily and are cached
 (`functools.cache`), so the first request pays the loading cost once.
 
-### 14. How is it tested without downloading models?
+### 18. How is it tested without downloading models?
 `tests/test_api.py` monkeypatches the classifier and summarizer factories with fakes, so CI needs no torch or
 transformers (`requirements-ci.txt`). Real code paths that need no model (TF-IDF, lead-2, ROUGE, metrics merging,
 splitting) are tested for real. GitHub Actions runs `ruff check` and `pytest` on every push.
 
-### 15. How do you make results reproducible?
+### 19. How do you make results reproducible?
 One seed (`config.SEED = 42`) for splits, training and sampling; greedy decoding for the LLMs; `metrics.json` is only
 written by code (`ticketlens/metrics_io.py`), and the README tables and chart are generated from it
 (`scripts/render_results.py`, `ticketlens/plots.py`).
 
-### 16. What would you do next?
+### 20. What would you do next?
 - Test on real (anonymised) tickets, and add an "out of scope" class with a confidence threshold.
 - Fine-tune Flan-T5 or a small Llama with LoRA on DialogSum and compare against zero-shot.
 - Add an LLM-as-judge or human rating for faithfulness of summaries.

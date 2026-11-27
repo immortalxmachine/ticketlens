@@ -1,38 +1,18 @@
 {
-  "name": "TicketLens",
-  "title": "TicketLens: support-ticket intent classification and conversation summarization",
-  "description": "NLP benchmark for customer support: 27-intent ticket routing (TF-IDF, MiniLM embeddings, fine-tuned DistilBERT at 99.84% accuracy) and zero-shot dialogue summarization (lead-2, BART, Flan-T5, Llama 3.2) scored with ROUGE and BERTScore on DialogSum, served with FastAPI and Gradio.",
-  "repo": "https://github.com/immortalxmachine/ticketlens",
-  "tech": [
-    "Python",
-    "PyTorch",
-    "Hugging Face transformers",
-    "datasets",
-    "sentence-transformers",
-    "scikit-learn",
-    "DistilBERT",
-    "BART",
-    "Flan-T5",
-    "Llama 3.2",
-    "Ollama",
-    "ROUGE",
-    "BERTScore",
-    "FastAPI",
-    "Gradio",
-    "Pydantic",
-    "pytest",
-    "ruff",
-    "Docker",
-    "GitHub Actions",
-    "Playwright"
+  "title": "TicketLens",
+  "tagline": "Support-ticket NLP: intent classification & summarization",
+  "category": "AI/ML",
+  "highlights": [
+    "Fine-tuned DistilBERT for 27-intent support-ticket routing, reaching 99.84% accuracy and 0.998 macro-F1 on 2,464 held-out messages in 172s on a laptop GPU.",
+    "Benchmarked TF-IDF, frozen MiniLM embeddings and fine-tuned DistilBERT on a deduplicated, stratified split — a 1 MB TF-IDF model within 0.5 points of the transformer.",
+    "Compared BART, Flan-T5 and a lead-2 baseline for dialogue summarization with ROUGE and BERTScore; Flan-T5-base led (ROUGE-L 0.259 vs 0.222)."
   ],
-  "images": [
-    "docs/screenshots/demo.gif",
-    "docs/screenshots/01-gradio.png",
-    "docs/screenshots/01b-gradio-summarize.png",
-    "docs/screenshots/02-api-docs.png",
-    "docs/screenshots/03-confusion-matrix.png",
-    "docs/screenshots/04-model-comparison.png",
-    "docs/screenshots/05-ci.png"
-  ]
+  "metrics": [
+    { "label": "Intent accuracy", "value": "99.84%" },
+    { "label": "Macro-F1", "value": "0.998" },
+    { "label": "Intents", "value": "27" }
+  ],
+  "demo": null,
+  "featured": true,
+  "order": 13
 }
